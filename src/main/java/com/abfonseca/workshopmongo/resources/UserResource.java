@@ -38,13 +38,20 @@ public class UserResource {
 		User obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).build();
-		
+		return ResponseEntity.created(uri).build();		
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id){	
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Void> update(@RequestBody UserDTO objDto, @PathVariable String id){	
+		User obj = service.fromDTO(objDto);
+		obj.setId(id);
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();	
 	}
 }
